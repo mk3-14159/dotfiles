@@ -51,3 +51,22 @@ vim.keymap.set("n", "<C-n>", ":bnext<CR>", default_opts)
 vim.keymap.set("n", "<C-p>", ":bprevious<CR>", default_opts)
 vim.keymap.set("x", "<leader>p", '"_dP')
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
+
+-- Terminal shortcuts
+-- Open terminal in new split
+vim.keymap.set("n", "<Space><Space>", function()
+	vim.cmd("new")
+	vim.cmd("terminal")
+end, { noremap = true, silent = true })
+
+-- Close terminal
+-- when you press esc it will actually exit, it just takes some time...
+vim.keymap.set("t", "<Esc>", function()
+	-- Close the current buffer if it's a terminal
+	if vim.bo.buftype == "terminal" then
+		vim.cmd("bdelete!")
+	else
+		-- Otherwise, just behave as normal escape would
+		vim.cmd("stopinsert")
+	end
+end, { noremap = true, silent = true })
