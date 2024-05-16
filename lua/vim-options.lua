@@ -70,3 +70,15 @@ vim.keymap.set("t", "<Esc>", function()
     vim.cmd("stopinsert")
   end
 end, { noremap = true, silent = true })
+
+-- Docker container specific 
+-- Find the path to zsh and set it as the default shell
+local handle = io.popen("which zsh")
+local zsh_path = handle:read("*a")
+handle:close()
+
+-- Trim any whitespace from the path
+zsh_path = zsh_path:match("^%s*(.-)%s*$")
+
+-- Set the shell option in Neovim
+vim.o.shell = zsh_path
