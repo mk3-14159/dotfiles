@@ -1,5 +1,5 @@
 vim.wo.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.smartindent = true
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
@@ -55,23 +55,23 @@ vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 -- Terminal shortcuts
 -- Open terminal in new split
 vim.keymap.set("n", "<Space><Space>", function()
-  vim.cmd("new")
-  vim.cmd("terminal")
+	vim.cmd("new")
+	vim.cmd("terminal")
 end, { noremap = true, silent = true })
 
 -- Close terminal
 -- when you press esc it will actually exit, it just takes some time...
 vim.keymap.set("t", "<Esc>", function()
-  -- Close the current buffer if it's a terminal
-  if vim.bo.buftype == "terminal" then
-    vim.cmd("bdelete!")
-  else
-    -- Otherwise, just behave as normal escape would
-    vim.cmd("stopinsert")
-  end
+	-- Close the current buffer if it's a terminal
+	if vim.bo.buftype == "terminal" then
+		vim.cmd("bdelete!")
+	else
+		-- Otherwise, just behave as normal escape would
+		vim.cmd("stopinsert")
+	end
 end, { noremap = true, silent = true })
 
--- Docker container specific 
+-- Docker container specific
 -- Find the path to zsh and set it as the default shell
 local handle = io.popen("which zsh")
 local zsh_path = handle:read("*a")
