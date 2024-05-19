@@ -55,8 +55,9 @@ vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 -- Terminal shortcuts
 -- Open terminal in new split
 vim.keymap.set("n", "<Space><Space>", function()
-	vim.cmd("new")
-	vim.cmd("terminal")
+	-- vim.cmd("new")
+	-- vim.cmd("terminal")
+	vim.cmd("split | terminal")
 end, { noremap = true, silent = true })
 
 -- Close terminal
