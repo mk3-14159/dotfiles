@@ -24,6 +24,10 @@ return {
 				capabilities = capabilities,
 			})
 
+			lspconfig.prismals.setup({
+				capabilities = capabilities,
+			})
+
 			lspconfig.html.setup({
 				capabilities = capabilities,
 			})
@@ -78,4 +82,3 @@ return {
 		end,
 	},
 }
-
