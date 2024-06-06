@@ -52,6 +52,9 @@ vim.keymap.set("n", "<C-p>", ":bprevious<CR>", default_opts)
 vim.keymap.set("x", "<leader>p", '"_dP')
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 
+-- Set Neotree
+vim.keymap.set("n", "<C-b>", "<Cmd>Neotree toggle<CR>")
+
 -- Terminal shortcuts
 -- Open terminal in new split
 vim.keymap.set("n", "<Space><Space>", function()
