@@ -1,3 +1,20 @@
+-- Helper function for root pattern with exclusions
+local function root_pattern_excludes(opt)
+	local util = require("lspconfig/util")
+	local root = opt.root
+	local exclude = opt.exclude
+
+	local function matches(path, pattern)
+		return 0 < #vim.fn.glob(util.path.join(path, pattern))
+	end
+
+	return function(startpath)
+		return util.search_ancestors(startpath, function(path)
+			return matches(path, root) and not matches(path, exclude)
+		end)
+	end
+end
+
 return {
 	{
 		"williamboman/mason.nvim",
@@ -18,12 +35,26 @@ return {
 		lazy = false,
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
 			local lspconfig = require("lspconfig")
-			lspconfig.tsserver.setup({
-				capabilities = capabilities,
-			})
 
+			-- TypeScript/JavaScript configuration with exclusions
+			-- lspconfig.tsserver.setup({
+			-- 	on_attach = on_attach,
+			-- 	root_dir = lspconfig.util.root_pattern("package.json"),
+			-- 	single_file_support = false,
+			-- })
+
+			lspconfig.ts_ls.setup({
+				on_attach = on_attach,
+				root_dir = lspconfig.util.root_pattern("package.json"),
+				single_file_support = false,
+			})
+			-- Deno configuration with exclusions
+			lspconfig.denols.setup({
+				on_attach = on_attach,
+				root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+			})
+			-- Other LSP configurations remain unchanged
 			lspconfig.prismals.setup({
 				capabilities = capabilities,
 			})
@@ -66,6 +97,7 @@ return {
 				},
 			})
 
+			-- Keymaps remain unchanged
 			vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {})
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, {})
@@ -74,7 +106,7 @@ return {
 			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 
-			-- Errors
+			-- Error navigation keymaps remain unchanged
 			vim.keymap.set("n", "<leader>of", vim.diagnostic.open_float, {})
 			vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<cr>", {})
 			vim.keymap.set("n", "g]", vim.diagnostic.goto_next, {})
